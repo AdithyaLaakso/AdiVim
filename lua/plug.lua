@@ -3,7 +3,7 @@ local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
   if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 
+    fn.system({'git', 'clone', '--depth', '1',
       'https://github.com/wbthomason/packer.nvim', install_path})
     vim.cmd [[packadd packer.nvim]]
     return true
@@ -15,29 +15,30 @@ ensure_packer()
 -- Plugin setup
 require('packer').startup(function(use)
 
+	--Plugins (duh)
   use 'wbthomason/packer.nvim'
 
   -- Zen mode
   use { 'folke/zen-mode.nvim' }
-  
+
   -- Fuzzy Finder
   use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }
   use 'junegunn/fzf.vim'
 
   -- Rust LSP
-  use 'williamboman/mason.nvim'    
+  use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
   use 'simrat39/rust-tools.nvim'
 
   --auto-complete
-  use 'hrsh7th/nvim-cmp' 
+  use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-nvim-lua'
   use 'hrsh7th/cmp-nvim-lsp-signature-help'
-  use 'hrsh7th/cmp-vsnip'                             
-  use 'hrsh7th/cmp-path'                              
-  use 'hrsh7th/cmp-buffer'                            
+  use 'hrsh7th/cmp-vsnip'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/vim-vsnip'
 
   --parsing
@@ -51,7 +52,7 @@ require('packer').startup(function(use)
 
 	--searching
 	use 'nvim-lua/plenary.nvim'
-	use {'nvim-telescope/telescope.nvim', tag = '0.1.8'} 
+	use {'nvim-telescope/telescope.nvim', tag = '0.1.8'}
 	use {
 		'smoka7/hop.nvim',
 		branch = 'v2',
@@ -66,18 +67,18 @@ require('packer').startup(function(use)
 	use 'preservim/tagbar'
   use "folke/trouble.nvim"
 
-  -- asthetics 
+  -- asthetics
   use 'rebelot/kanagawa.nvim'
 	use 'lukas-reineke/indent-blankline.nvim' --indent hints
 	use 'windwp/nvim-autopairs' --autopairs
 	use 'RRethy/vim-illuminate' --hl other under cusor
-  use 'm-demare/hlargs.nvim' --hl args	
-	use 'danilamihailov/beacon.nvim'
+  use 'm-demare/hlargs.nvim' --hl args
+	use 'MunifTanjim/nui.nvim' --ui components
+	use 'junegunn/rainbow_parentheses.vim' -- different colored paras
+	use 'psliwka/vim-smoothie' -- smooth scrollpsliwka/vim-smoothie
 
 	--Tools
 	use 'tpope/vim-surround' --Change Surround e.g. (hello) becomes <q>hello</q> after cs(<q>
-
-	use 'MunifTanjim/nui.nvim'
 
 	--Leetcode
 	use {
@@ -95,6 +96,9 @@ require('packer').startup(function(use)
 			})
 		end,
   }
+
+	--golf
+	use 'vuciv/golf'
 
 end)
 
@@ -121,35 +125,7 @@ rt.setup({
   },
 })
 
--- LSP Diagnostics Options Setup 
-local sign = function(opts)
-  vim.fn.sign_define(opts.name, {
-    texthl = opts.name,
-    text = opts.text,
-    numhl = ''
-  })
-end
-
-sign({name = 'DiagnosticSignError', text = ''})
-sign({name = 'DiagnosticSignWarn', text = ''})
-sign({name = 'DiagnosticSignHint', text = ''})
-sign({name = 'DiagnosticSignInfo', text = ''})
-
--- LSP Diagnostics Options Setup 
-local sign = function(opts)
-  vim.fn.sign_define(opts.name, {
-    texthl = opts.name,
-    text = opts.text,
-    numhl = ''
-  })
-end
-
-sign({name = 'DiagnosticSignError', text = ''})
-sign({name = 'DiagnosticSignWarn', text = ''})
-sign({name = 'DiagnosticSignHint', text = ''})
-sign({name = 'DiagnosticSignInfo', text = ''})
-
--- LSP Diagnostics Options Setup 
+-- LSP Diagnostics Options Setup
 local sign = function(opts)
   vim.fn.sign_define(opts.name, {
     texthl = opts.name,
@@ -192,16 +168,13 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-b>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
-    -- Add tab support
-    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-    ['<Tab>'] = cmp.mapping.select_next_item(),
     ['<C-S-f>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({
+    ['<Tab>'] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     })
@@ -213,7 +186,7 @@ cmp.setup({
     { name = 'nvim_lsp_signature_help'},            -- display function signatures with current parameter emphasized
     { name = 'nvim_lua', keyword_length = 2},       -- complete neovim's Lua runtime API such vim.lsp.*
     { name = 'buffer', keyword_length = 2 },        -- source current buffer
-    { name = 'vsnip', keyword_length = 2 },         -- nvim-cmp source for vim-vsnip 
+    { name = 'vsnip', keyword_length = 2 },         -- nvim-cmp source for vim-vsnip
     { name = 'calc'},                               -- source for math calculation
   },
   window = {
@@ -235,7 +208,7 @@ cmp.setup({
   },
 })
 
--- Treesitter Plugin Setup 
+-- Treesitter Plugin Setup
 require('nvim-treesitter.configs').setup {
   ensure_installed = { "lua", "rust", "toml" },
   auto_install = true,
@@ -243,7 +216,7 @@ require('nvim-treesitter.configs').setup {
     enable = true,
     additional_vim_regex_highlighting=false,
   },
-  ident = { enable = true }, 
+  ident = { enable = true },
   rainbow = {
     enable = true,
     extended_mode = true,
@@ -251,26 +224,26 @@ require('nvim-treesitter.configs').setup {
   }
 }
 
--- Treesitter folding 
+-- Treesitter folding
 vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
 
 -- Vimspector options
 vim.cmd([[
-let g:vimspector_sidebar_width = 85
-let g:vimspector_bottombar_height = 15
-let g:vimspector_terminal_maxwidth = 70
+	let g:vimspector_sidebar_width = 85
+	let g:vimspector_bottombar_height = 15
+	let g:vimspector_terminal_maxwidth = 70
 ]])
 
 -- Vimspector
-vim.cmd([[
-nmap <F9> <cmd>call vimspector#Launch()<cr>
-nmap <F5> <cmd>call vimspector#StepOver()<cr>
-nmap <F8> <cmd>call vimspector#Reset()<cr>
-nmap <F11> <cmd>call vimspector#StepOver()<cr>")
-nmap <F12> <cmd>call vimspector#StepOut()<cr>")
-nmap <F10> <cmd>call vimspector#StepInto()<cr>")
-]])
+--vim.cmd([
+--nmap <F9> <cmd>call vimspector#Launch()<cr>
+--nmap <F5> <cmd>call vimspector#StepOver()<cr>
+--nmap <F8> <cmd>call vimspector#Reset()<cr>
+--nmap <F11> <cmd>call vimspector#StepOver()<cr>
+--nmap <F12> <cmd>call vimspector#StepOut()<cr>
+--nmap <F10> <cmd>call vimspector#StepInto()<cr>
+--])
 
 --nvim-tree Options
 vim.g.loaded_netrw = 1
@@ -310,7 +283,7 @@ telescope.setup({
 -- force hop setup
 require'hop'.setup {}
 
---get nice indent hints 
+--get nice indent hints
 require('ibl').setup()
 
 --setup hlargs
