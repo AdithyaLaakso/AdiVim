@@ -55,7 +55,6 @@ require('packer').startup(function(use)
 	use {'nvim-telescope/telescope.nvim', tag = '0.1.8'}
 	use {
 		'smoka7/hop.nvim',
-		branch = 'v2',
 		config = function ()
 			require'hop'.setup {}
 		end
@@ -295,3 +294,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.cmd("colorscheme kanagawa")
   end,
 })
+
+-- vim-smoothie
+vim.g.smoothie_experimental_mappings = true
