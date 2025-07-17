@@ -17,10 +17,13 @@ vim.keymap.set("i", "<right>", "<nop>", { noremap = true })
 vim.opt.number = true
 vim.opt.relativenumber = true
 
--- ur dumb line
+-- add the "ur dumb" line
 vim.opt.colorcolumn = "80"
 
--- C/P
+-- Disable status line
+vim.opt.laststatus = 0
+
+-- Share the default register with the system clipboard
 vim.opt.clipboard:append("unnamedplus")
 
 -- Windows sanity
@@ -46,8 +49,8 @@ vim.opt.ve = all
 -- Disable insanity (swapfiles smh)
 vim.opt.swapfile = false
 
---remove training whitespace on write
--- Auto-remove trailing whitespace on save
+
+-- Auto-remove trailing whitespace on save (so as not to be a asshole in git commits)
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
@@ -59,24 +62,18 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 --there HAS to be a better way to do this, cuz it should be default
 -- Store previous contents of the unnamed register
+-- Prevent whitespace-only deletes from overwriting \" register
 local last_good_register = vim.fn.getreg('"')
-
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     local event = vim.v.event
     local text = event.regcontents and table.concat(event.regcontents, "\n") or ""
-
-    -- If this was a delete or change...
     if event.operator == "d" or event.operator == "c" then
-      -- And the deleted text is only whitespace
       if text:match("^%s*$") then
-        -- Restore the unnamed register to its previous content
         vim.fn.setreg('"', last_good_register)
         return
       end
     end
-
-    -- Otherwise, update the last good register for future restoration
     last_good_register = vim.fn.getreg('"')
   end,
   desc = "Prevent whitespace-only deletes from overwriting \" or + register",
