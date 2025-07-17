@@ -33,6 +33,10 @@ vim.opt.softtabstop = 2   -- Makes backspace delete 1 tabstop worth
 vim.opt.shiftwidth = 2    -- Indent operations use 2 spaces per level
 vim.opt.expandtab = false -- KEEP real tabs (don't convert to spaces)
 
+-- General sanity
+vim.opt.smartcase = true
+vim.opt.wrap = false
+
 -- Search settings
 vim.opt.ignorecase = true
 
@@ -75,5 +79,5 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     -- Otherwise, update the last good register for future restoration
     last_good_register = vim.fn.getreg('"')
   end,
-  desc = "Prevent whitespace-only deletes from overwriting \" register",
+  desc = "Prevent whitespace-only deletes from overwriting \" or + register",
 })

@@ -9,7 +9,7 @@ keymap( "n",
 )
 keymap( "n",
 	"Hh",
-	'<Cmd>vertical resize -2" <CR>"', 
+	'<Cmd>vertical resize -2" <CR>"',
 	{ desc = "Shrink window (left)" }
 )
 keymap( "n",
@@ -24,7 +24,7 @@ keymap( "n",
 )
 keymap( "n",
 	"Ll",
-	"<Cmd>vertical resize +2 <CR>", 
+	"<Cmd>vertical resize +2 <CR>",
 	{ desc = "Grow window (right)" }
 )
 keymap( "n",
@@ -39,7 +39,7 @@ keymap( "n",
 )
 keymap( "n",
 	"Qq",
-	"<Cmd>bdelete<CR>< Cmd>close<CR>", 
+	"<Cmd>bdelete<CR>< Cmd>close<CR>",
 	{ desc = "Close window and buffer" }
 )
 keymap( "n",
@@ -49,7 +49,7 @@ keymap( "n",
 )
 keymap( "n",
 	"<S- Tab>",
-	"<C-w> W", 
+	"<C-w> W",
 	{ desc = "Previous window" }
 )
 
@@ -60,10 +60,12 @@ vim.keymap.set("n", "Kd", function()
   local opts = { noremap = true, silent = true }
   vim.keymap.set("n", "d", [["_d]], opts)
   vim.keymap.set("n", "dd", [["_dd]], opts)
+  vim.keymap.set("n", "dd", [["_D]], opts)
 
   vim.defer_fn(function()
     vim.keymap.del("n", "d")
     vim.keymap.del("n", "dd")
+    vim.keymap.del("n", "D")
   end, 500)
 end, { desc = "Next delete uses black hole" })
 keymap("n",
@@ -197,6 +199,12 @@ keymap('v', '<C-k>', ":m '<-2<CR>gv=gv", opts)
 
 -- remove highlight
 keymap('n', '<leader>n', ":noh<CR>", opts)
+
+-- write file
+keymap("n", "<leader>w", ":w<CR>", opts)
+
+-- reload luafile
+keymap("n", "<leader>L", ":luafile ~/.config/nvim/init.lua<CR>", opts)
 
 -- buffers
 keymap('n', '<C-n>', ":bn<CR>", opts)
