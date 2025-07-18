@@ -248,3 +248,4 @@ keymap('n', '<leader>tc', ':NvimTreeCollapse <cr>', opts)
 
 -- tags
 keymap('n', '<leader>tb', ':TagbarToggle <cr>', opts)
+keymap('n', '<leader>tj', ':TagbarAutoClose <cr>', opts)

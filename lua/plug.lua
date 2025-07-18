@@ -295,5 +295,5 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
--- vim-smoothie
+-- vim-smoothie work for all mappings
 vim.g.smoothie_experimental_mappings = true
