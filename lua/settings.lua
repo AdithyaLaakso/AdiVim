@@ -40,6 +40,10 @@ vim.opt.expandtab = false -- KEEP real tabs (don't convert to spaces)
 vim.opt.smartcase = true
 vim.opt.wrap = false
 
+-- experimenting with keeping the cursor in the center of the window so that
+-- zz is not needed
+vim.opt.scrolloff = 999
+
 -- Search settings
 vim.opt.ignorecase = true
 
@@ -63,6 +67,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 --there HAS to be a better way to do this, cuz it should be default
 -- Store previous contents of the unnamed register
 -- Prevent whitespace-only deletes from overwriting \" register
+-- also does not work (fml)
 local last_good_register = vim.fn.getreg('"')
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
@@ -77,4 +82,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     last_good_register = vim.fn.getreg('"')
   end,
   desc = "Prevent whitespace-only deletes from overwriting \" or + register",
+})
+
+--Correct filetypes
+vim.filetype.add({
+	extension = {
+		uxml = "html",
+		uss = "css"
+	}
 })

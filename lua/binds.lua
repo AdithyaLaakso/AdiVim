@@ -9,12 +9,12 @@ keymap( "n",
 )
 keymap( "n",
 	"Hh",
-	'<Cmd>vertical resize -2" <CR>"',
+	'<Cmd>vertical resize -7" <CR>"',
 	{ desc = "Shrink window (left)" }
 )
 keymap( "n",
 	"Hn",
-	"<C-w>v< C-w>H",
+	"<C-w>v<C-w>H",
 	{ desc = "New window left" }
 )
 keymap( "n",
@@ -24,7 +24,7 @@ keymap( "n",
 )
 keymap( "n",
 	"Ll",
-	"<Cmd>vertical resize +2 <CR>",
+	"<Cmd>vertical resize +7 <CR>",
 	{ desc = "Grow window (right)" }
 )
 keymap( "n",
@@ -76,20 +76,8 @@ keymap("n",
 keymap(
 	'n',
 	'KOO',
-	"_ddO<Esc>",
+	"\"_ddO<Esc>",
 	{ desc = "replace with newline no register" }
-)
-keymap(
-	'n',
-	'KOK',
-	"O<Esc>j",
-	{ desc = "newline above, stay in place" }
-)
-keymap(
-	'n',
-	'KOJ',
-	"o<Esc>k",
-	{ desc = "newline below, stay in place" }
 )
 vim.keymap.set("n", "Kv", function()
   local ve = vim.opt.virtualedit:get()
@@ -115,8 +103,8 @@ keymap( 'n',
 )
 keymap( 'n',
 	'KY',
-	'ggVGy`"',
-	{ desc = "Yank entire buffer without moving" }
+	"mxgg\"+yG'x",
+	{ desc = "Yank entire buffer to system clipboard without moving" }
 )
 keymap( "n",
 	"K;",
@@ -129,21 +117,20 @@ keymap( "n",
 	{ desc = "Add , to end of line" }
 )
 
-local comment = require("custom_macros")
-
-vim.keymap.set("n", "X", comment.toggle_comment, { desc = "Toggle comment (filetype-aware)" })
-
 -- swap bindings for ; and : based on use
-keymap("n",
+vim.keymap.set({"n", "v"},
 	":",
 	";",
 	{ noremap= true, desc = "swap colon types based on use" }
 )
-keymap("n",
+vim.keymap.set({"n", "v"},
 	";",
 	":",
 	{ noremap= true, desc = "swap colon types based on use" }
 )
+
+-- control h to escape
+vim.keymap.set({"i"}, "<C-h>", "<Esc>")
 
 -------------------------------------------------------------------------------
 --	LEADER --------------------------------------------------------------------

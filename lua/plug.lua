@@ -25,11 +25,15 @@ require('packer').startup(function(use)
   use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }
   use 'junegunn/fzf.vim'
 
-  -- Rust LSP
+  -- LSP
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
-  use 'simrat39/rust-tools.nvim'
+  use 'simrat39/rust-tools.nvim'	-- Language support: Rust
+	use 'sheerun/vim-polyglot' -- language defaults to fall back on
+
+  -- For exploring config files
+  use 'Owen-Dechow/videre.nvim'
 
   --auto-complete
   use 'hrsh7th/nvim-cmp'
@@ -45,14 +49,15 @@ require('packer').startup(function(use)
   use 'nvim-treesitter/nvim-treesitter'
 
   --debug
-  use 'puremourning/vimspector'
+  use 'puremourning/vimspector' -- have not figured out how to use yet
 
   --floating terminal
   use 'voldikss/vim-floaterm'
 
 	--searching
-	use 'nvim-lua/plenary.nvim'
-	use {'nvim-telescope/telescope.nvim', tag = '0.1.8'}
+	-- use {'nvim-telescope/telescope.nvim', tag = '0.1.8'}
+
+	-- Navigation
 	use {
 		'smoka7/hop.nvim',
 		config = function ()
@@ -64,20 +69,26 @@ require('packer').startup(function(use)
 	use 'nvim-tree/nvim-tree.lua'
 	use 'nvim-tree/nvim-web-devicons'
 	use 'preservim/tagbar'
-  use "folke/trouble.nvim"
+  use 'folke/trouble.nvim'
+	use 'brianhuster/unnest.nvim' --flatted neovim sessions
 
   -- asthetics
-  use 'rebelot/kanagawa.nvim'
+	use 'nvim-lua/plenary.nvim'
+  use 'rebelot/kanagawa.nvim' --best colorscheme I have found
 	use 'lukas-reineke/indent-blankline.nvim' --indent hints
-	use 'windwp/nvim-autopairs' --autopairs
 	use 'RRethy/vim-illuminate' --hl other under cusor
   use 'm-demare/hlargs.nvim' --hl args
 	use 'MunifTanjim/nui.nvim' --ui components
 	use 'junegunn/rainbow_parentheses.vim' -- different colored paras
 	use 'psliwka/vim-smoothie' -- smooth scrollpsliwka/vim-smoothie
 
-	--Tools
-	use 'tpope/vim-surround' --Change Surround e.g. (hello) becomes <q>hello</q> after cs(<q>
+	-- Quality of life
+	use 'echasnovski/mini.pairs' -- autopairs
+	use 'mluders/comfy-line-numbers.nvim' --left hand jumps only
+	use 'tpope/vim-surround' --Surround text objects
+	use 'tpope/vim-repeat' --patch for the above
+  use 'tpope/vim-obsession' --Session management
+	use 'rhysd/clever-f.vim' --makes f/F/t/T repeat by default
 
 	--Leetcode
 	use {
@@ -100,6 +111,26 @@ require('packer').startup(function(use)
 	use 'vuciv/golf'
 
 end)
+
+--comfy jump setup
+require('comfy-line-numbers').setup({
+  labels = {
+    '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '21', '22', '23',
+    '24', '25', '31', '32', '33', '34', '35', '41', '42', '43', '44', '45',
+    '51', '52', '53', '54', '55', '111', '112', '113', '114', '115', '121',
+    '122', '123', '124', '125', '131', '132', '133', '134', '135', '141',
+    '142', '143', '144', '145', '151', '152', '153', '154', '155', '211',
+    '212', '213', '214', '215', '221', '222', '223', '224', '225', '231',
+    '232', '233', '234', '235', '241', '242', '243', '244', '245', '251',
+    '252', '253', '254', '255',
+  },
+  up_key = 'k',
+  down_key = 'j',
+
+  -- Line numbers will be completely hidden for the following file/buffer types
+  hidden_file_types = { 'undotree' },
+  hidden_buffer_types = { 'terminal' }
+})
 
 -- Mason Setup
 require("mason").setup({
@@ -209,7 +240,7 @@ cmp.setup({
 
 -- Treesitter Plugin Setup
 require('nvim-treesitter.configs').setup {
-  ensure_installed = { "lua", "rust", "toml" },
+  ensure_installed = { "lua", "rust", "toml", "c", "python"},
   auto_install = true,
   highlight = {
     enable = true,
@@ -223,9 +254,9 @@ require('nvim-treesitter.configs').setup {
   }
 }
 
--- Treesitter folding
-vim.wo.foldmethod = 'expr'
-vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+-- Treesitter folding (I hate this but occasionally it is useful)
+-- vim.wo.foldmethod = 'expr'
+-- vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
 
 -- Vimspector options
 vim.cmd([[
