@@ -84,10 +84,17 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Prevent whitespace-only deletes from overwriting \" or + register",
 })
 
---Correct filetypes
-vim.filetype.add({
-	extension = {
-		uxml = "html",
-		uss = "css"
-	}
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.uss",
+  callback = function()
+    vim.bo.filetype = "css"
+  end,
+})
+
+-- Extra-safe custom filetypes
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.uxml",
+  callback = function()
+    vim.bo.filetype = "html"
+  end,
 })
