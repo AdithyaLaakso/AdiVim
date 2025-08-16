@@ -33,13 +33,8 @@ keymap( "n",
 	{ desc = "New window right" }
 )
 keymap( "n",
-	"QQ",
-	"<Cmd>close<CR>",
-	{ desc = "Close window" }
-)
-keymap( "n",
-	"Qq",
-	"<Cmd>bdelete<CR>< Cmd>close<CR>",
+	"Q",
+	"<Cmd>bdelete<CR><Cmd>close<CR>",
 	{ desc = "Close window and buffer" }
 )
 keymap( "n",
@@ -56,28 +51,28 @@ keymap( "n",
 -------------------------------------------------------------------------------
 --	MINI-MACRO ----------------------------------------------------------------
 -------------------------------------------------------------------------------
-vim.keymap.set("n", "Kd", function()
-  local opts = { noremap = true, silent = true }
-  vim.keymap.set("n", "d", [["_d]], opts)
-  vim.keymap.set("n", "dd", [["_dd]], opts)
-  vim.keymap.set("n", "dd", [["_D]], opts)
-
-  vim.defer_fn(function()
-    vim.keymap.del("n", "d")
-    vim.keymap.del("n", "dd")
-    vim.keymap.del("n", "D")
-  end, 500)
-end, { desc = "Next delete uses black hole" })
 keymap("n",
 	"KJ",
 	"i<CR><Esc>k$",
-	{ desc = "Split line at cursor" }
+	{ desc = "Split line at cursor down" }
 )
 keymap(
 	'n',
-	'KOO',
+	'KK',
+	"i<CR><Esc>k$<Cmd>m +1<CR>",
+	{ desc = "Split line at cursor up" }
+)
+keymap(
+	'n',
+	'KH',
 	"\"_ddO<Esc>",
 	{ desc = "replace with newline no register" }
+)
+keymap(
+	'n',
+	'KS',
+	"gcc",
+	{ desc = "More ergo comment" }
 )
 vim.keymap.set("n", "Kv", function()
   local ve = vim.opt.virtualedit:get()
@@ -127,6 +122,23 @@ vim.keymap.set({"n", "v"},
 	";",
 	":",
 	{ noremap= true, desc = "swap colon types based on use" }
+)
+
+-- s/S/^s is a anti pattern and so is ^
+vim.keymap.set({"n", "v"},
+	"s",
+	"^",
+	{ noremap= true, desc= "little s to jump to line start" }
+)
+vim.keymap.set({"n", "v"},
+	"S",
+	"$",
+	{ noremap= true, desc= "big S to jump to line end" }
+)
+vim.keymap.set({"n"},
+	"<C-s>",
+	"<C-^",
+	{ noremap= true, desc= "control s to \"switch\" buffers" }
 )
 
 -- control h to escape
