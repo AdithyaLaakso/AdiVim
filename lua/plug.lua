@@ -54,11 +54,15 @@ require('packer').startup(function(use)
   --debug
   use 'puremourning/vimspector' -- have not figured out how to use yet
 
+  --git
+  use 'lewis6991/gitsigns.nvim'
+  use 'dinhhuy258/git.nvim'
+
   --floating terminal
   use 'voldikss/vim-floaterm'
 
 	--searching
-	-- use {'nvim-telescope/telescope.nvim', tag = '0.1.8'}
+	use { 'nvim-telescope/telescope.nvim' }
 
 	-- Navigation
 	use {
@@ -76,28 +80,33 @@ require('packer').startup(function(use)
 	use 'brianhuster/unnest.nvim' --flatted neovim sessions
 
   -- asthetics
-	use 'nvim-lua/plenary.nvim'
+	use 'nvim-lua/plenary.nvim' --ui components
+  use 'MunifTanjim/nui.nvim' --ui components
   use 'rebelot/kanagawa.nvim' --best colorscheme I have found
 	use 'lukas-reineke/indent-blankline.nvim' --indent hints
 	use 'RRethy/vim-illuminate' --hl other under cusor
   use 'm-demare/hlargs.nvim' --hl args
-	use 'MunifTanjim/nui.nvim' --ui components
-	use 'junegunn/rainbow_parentheses.vim' -- different colored paras
+	use 'junegunn/rainbow_parentheses.vim' --different colored paras (not working rn)
 	use 'psliwka/vim-smoothie' -- smooth scrollpsliwka/vim-smoothie
+  use 'norcalli/nvim-colorizer.lua' --color diplay for csslike
+  use { 'akinsho/bufferline.nvim', tag = "*" } --bufferline
 
 	-- Quality of life
-	use 'echasnovski/mini.pairs' -- autopairs
+	use { 'echasnovski/mini.pairs', version = false } -- autopairs
 	use 'mluders/comfy-line-numbers.nvim' --left hand jumps only
 	use 'tpope/vim-surround' --Surround text objects
 	use 'tpope/vim-repeat' --patch for the above
   use 'tpope/vim-obsession' --Session management
 	use 'rhysd/clever-f.vim' --makes f/F/t/T repeat by default
+  use 'AndrewRadev/switch.vim' --toggle expressions using gs
+  use 'gerazov/vim-toggle-bool' --toggle booleans using gs
+  use 'windwp/nvim-ts-autotag' --html autotags
 
 	--Leetcode
 	use {
 		"kawre/leetcode.nvim",
 		requires = {
-			"nvim-telescope/telescope.nvim",
+      "nvim-telescope/telescope.nvim",
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
 		},
@@ -297,64 +306,28 @@ require("nvim-tree").setup({
   },
 })
 
-local actions = require("telescope.actions")
-local open_with_trouble = require("trouble.sources.telescope").open
-
-local add_to_trouble = require("trouble.sources.telescope").add
-
-local telescope = require("telescope")
-
-telescope.setup({
-  defaults = {
-    mappings = {
-      i = { ["<c-t>"] = open_with_trouble },
-      n = { ["<c-t>"] = open_with_trouble },
-			},
-  },
-})
-
--- force hop setup
+-- force setup
 require'hop'.setup {}
-
---get nice indent hints
 require('ibl').setup()
-
---setup hlargs
 require('hlargs').setup()
+require('mini.pairs').setup()
+require('nvim-ts-autotag').setup()
+require('colorizer').setup()
+require('git').setup()
 
 --setup marks
 require('marks').setup {
-  -- whether to map keybinds or not. default true
   default_mappings = true,
-  -- which builtin marks to show. default {}
   builtin_marks = { ".", "<", ">", "^" },
-  -- whether movements cycle back to the beginning/end of buffer. default true
   cyclic = true,
-  -- whether the shada file is updated after modifying uppercase marks. default false
   force_write_shada = false,
-  -- how often (in ms) to redraw signs/recompute mark positions.
-  -- higher values will have better performance but may cause visual lag,
-  -- while lower values may cause performance penalties. default 150.
   refresh_interval = 150,
-  -- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
-  -- marks, and bookmarks.
-  -- can be either a table with all/none of the keys, or a single number, in which case
-  -- the priority applies to all marks.
-  -- default 10.
   sign_priority = { lower=10, upper=15, builtin=8, bookmark=20 },
-  -- disables mark tracking for specific filetypes. default {}
   excluded_filetypes = {},
-  -- disables mark tracking for specific buftypes. default {}
   excluded_buftypes = {},
-  -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
-  -- sign/virttext. Bookmarks can be used to group together positions and quickly move
-  -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
-  -- default virt_text is "".
   bookmark_0 = {
     sign = "⚑",
     virt_text = "hello world",
-    -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
-    -- defaults to false.
     annotate = false,
   },
   mappings = {}

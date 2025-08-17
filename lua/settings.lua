@@ -53,6 +53,9 @@ vim.opt.ve = all
 -- Disable insanity (swapfiles smh)
 vim.opt.swapfile = false
 
+-- Undo sanity
+vim.opt.undofile = true
+
 
 -- Auto-remove trailing whitespace on save (so as not to be a asshole in git commits)
 vim.api.nvim_create_autocmd("BufWritePre", {
