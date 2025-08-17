@@ -167,6 +167,10 @@ rt.setup({
   },
 })
 
+local lsp = require("lspconfig")
+lsp.ruff.setup {}
+lsp.ts_ls.setup {}
+
 -- LSP Diagnostics Options Setup
 local sign = function(opts)
   vim.fn.sign_define(opts.name, {
@@ -318,7 +322,7 @@ require('git').setup()
 --setup marks
 require('marks').setup {
   default_mappings = true,
-  builtin_marks = { ".", "<", ">", "^" },
+  builtin_marks = {},
   cyclic = true,
   force_write_shada = false,
   refresh_interval = 150,
