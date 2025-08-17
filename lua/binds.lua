@@ -135,9 +135,9 @@ vim.keymap.set({"n", "v"},
 	"$",
 	{ noremap= true, desc= "big S to jump to line end" }
 )
-vim.keymap.set({"n"},
+vim.keymap.set("n",
 	"<C-s>",
-	"<C-^",
+	"<C-^>",
 	{ noremap= true, desc= "control s to \"switch\" buffers" }
 )
 
