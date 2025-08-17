@@ -39,13 +39,11 @@ vim.opt.expandtab = false -- KEEP real tabs (don't convert to spaces)
 -- General sanity
 vim.opt.smartcase = true
 vim.opt.wrap = false
+vim.opt.ignorecase = true
 
 -- experimenting with keeping the cursor in the center of the window so that
 -- zz is not needed
 vim.opt.scrolloff = 999
-
--- Search settings
-vim.opt.ignorecase = true
 
 -- Virtual edits
 vim.opt.ve = all
