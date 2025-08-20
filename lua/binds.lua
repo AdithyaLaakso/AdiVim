@@ -33,7 +33,7 @@ keymap( "n",
 	{ desc = "New window right" }
 )
 keymap( "n",
-	"Q",
+	"<C-q>",
 	"<Cmd>bdelete<CR><Cmd>close<CR>",
 	{ desc = "Close window and buffer" }
 )

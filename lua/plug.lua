@@ -154,7 +154,9 @@ require("mason").setup({
         },
     }
 })
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = { "pyright", "rust_analyzer", "clangd", "ts_ls" },
+})
 local rt = require("rust-tools")
 rt.setup({
   server = {
@@ -170,6 +172,7 @@ rt.setup({
 local lsp = require("lspconfig")
 lsp.ruff.setup {}
 lsp.ts_ls.setup {}
+lsp.pyright.setup({})
 
 -- LSP Diagnostics Options Setup
 local sign = function(opts)
