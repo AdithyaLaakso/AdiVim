@@ -281,7 +281,7 @@ cmp.setup({
 })
 
 -- Treesitter Plugin Setup
-require('nvim-treesitter.configs').setup {
+require('nvim-treesitter.config').setup {
   ensure_installed = { "lua", "rust", "toml", "c", "python"},
   auto_install = true,
   highlight = {
