@@ -29,6 +29,7 @@ require('packer').startup(function(use)
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
+  use 'akinsho/flutter-tools.nvim'
   use 'simrat39/rust-tools.nvim'	-- Language support: Rust
 	use 'sheerun/vim-polyglot' -- language defaults to fall back on
 
@@ -50,9 +51,6 @@ require('packer').startup(function(use)
 
   --parsing
   use 'nvim-treesitter/nvim-treesitter'
-
-  --debug
-  use 'puremourning/vimspector' -- have not figured out how to use yet
 
   --git
   use 'lewis6991/gitsigns.nvim'
@@ -123,6 +121,10 @@ require('packer').startup(function(use)
 	use 'vuciv/golf'
 
 end)
+require("leetcode").setup({
+  -- your opts go here
+  lang = "c",
+})
 
 --comfy jump setup
 require('comfy-line-numbers').setup({
@@ -155,7 +157,7 @@ require("mason").setup({
     }
 })
 require("mason-lspconfig").setup({
-    ensure_installed = { "pyright", "rust_analyzer", "clangd", "ts_ls" },
+    ensure_installed = { "pyright", "rust_analyzer", "clangd", "ts_ls", "svelte"},
 })
 local rt = require("rust-tools")
 rt.setup({
@@ -169,10 +171,31 @@ rt.setup({
   },
 })
 
-local lsp = require("lspconfig")
+local lsp = require('lspconfig')
 lsp.ruff.setup {}
 lsp.ts_ls.setup {}
 lsp.pyright.setup({})
+lsp.dartls.setup{}
+lsp.svlete.setup{}
+
+require("flutter-tools").setup{
+  flutter_path = vim.fn.getcwd() .. "/.fvm/flutter_sdk/bin/flutter",
+  lsp = {
+    capabilities = require('cmp_nvim_lsp').default_capabilities(),
+    on_attach = function(_, bufnr)
+      -- Hover actions
+      vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+      -- Code action groups
+      vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+    end,
+  },
+  dev_log = {
+    enabled = true,
+    notify_errors = true,
+  },
+  widget_guides = { enabled = true },
+  closing_tags = { highlight = "ErrorMsg", prefix = "//" },
+}
 
 -- LSP Diagnostics Options Setup
 local sign = function(opts)
@@ -276,23 +299,6 @@ require('nvim-treesitter.configs').setup {
 -- Treesitter folding (I hate this but occasionally it is useful)
 -- vim.wo.foldmethod = 'expr'
 -- vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
-
--- Vimspector options
-vim.cmd([[
-	let g:vimspector_sidebar_width = 85
-	let g:vimspector_bottombar_height = 15
-	let g:vimspector_terminal_maxwidth = 70
-]])
-
--- Vimspector
---vim.cmd([
---nmap <F9> <cmd>call vimspector#Launch()<cr>
---nmap <F5> <cmd>call vimspector#StepOver()<cr>
---nmap <F8> <cmd>call vimspector#Reset()<cr>
---nmap <F11> <cmd>call vimspector#StepOver()<cr>
---nmap <F12> <cmd>call vimspector#StepOut()<cr>
---nmap <F10> <cmd>call vimspector#StepInto()<cr>
---])
 
 --nvim-tree Options
 vim.g.loaded_netrw = 1

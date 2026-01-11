@@ -99,3 +99,14 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.bo.filetype = "html"
   end,
 })
+
+-- Ignore stupid warningvim.notify = (function(original)
+vim.notify = (function(original)
+  return function(msg, level, opts)
+    if msg:match("require%(\'lspconfig\'%) \"framework\" is deprecated") then
+      return
+    end
+    return original(msg, level, opts)
+  end
+end)(vim.notify)
+vim.g.vimspector_disable_warnings = 1
